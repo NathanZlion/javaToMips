@@ -26,6 +26,8 @@ public class GUI extends JFrame {
     private final JTextArea mipsOutput;
     private final LineNumberTextArea resultLineNumberArea;
 
+    private boolean isValid = false;
+
     public GUI() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/code.png")));
@@ -50,6 +52,9 @@ public class GUI extends JFrame {
 
         // Add the input button to the top right of the input area
         JButton compileButton = new JButton("Compile");
+        compileButton.setBackground(Color.green);
+        compileButton.setForeground(Color.white);
+        
         JPanel compileButtonPanel = new JPanel(new BorderLayout());
         compileButtonPanel.add(compileButton, BorderLayout.EAST);
         compileButtonPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
@@ -72,7 +77,8 @@ public class GUI extends JFrame {
         mipsOutputPanel.add(resultScrollPane, BorderLayout.CENTER);
 
         // Add the result button to the top right of the result area
-        JButton runButton = new JButton("Run");
+        final JButton runButton = new JButton("Run");
+        runButton.setBackground(Color.lightGray);
         JPanel runButtonPanel = new JPanel(new BorderLayout());
         runButtonPanel.add(runButton, BorderLayout.EAST);
         runButtonPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
@@ -90,14 +96,28 @@ public class GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Compile button clicked, do something here
-                mipsOutput.setText(Assemble.assemble(unwrap.unwrapCode(javaInput.getText())));
+                String assembledCode = Assemble.assemble(unwrap.unwrapCode(javaInput.getText()));
+                if (assembledCode.contains("error")) {
+                    mipsOutput.setText(assembledCode);
+                    mipsOutput.setForeground(Color.red);
+                    runButton.setBackground(Color.lightGray);
+                    isValid = false;
+                } else {
+                    mipsOutput.setText(assembledCode);
+                    mipsOutput.setForeground(Color.black);
+                    runButton.setBackground(Color.GREEN);
+                    isValid = true;
+                }
+
             }
         });
 
         runButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                executer.execute(mipsOutput.getText());
+                if (isValid) {
+                    executer.execute(mipsOutput.getText());
+                }
             }
         });
     }
