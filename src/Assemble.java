@@ -1,8 +1,8 @@
 import java.util.*;
 
-public class Main {
+public class Assemble {
 
-    public static void main(String[] args) {
+    public static String main(String[] args) {
 //        String code = "String val=\"hello\"; System.out.println(val);";
 //        String code = "int val=9; System.out.println(val);";
 //        String code ="System.out.println(var9);";
@@ -12,7 +12,7 @@ public class Main {
 //        variableStore.add(var8);
 //        String code="if (8 == 8){System.out.println(\"true\");} \n else{System.out.println(\"false\")}";
         String code ="int x=3; System.out.println(y);";
-        System.out.println(translate(code));
+        return (translate(code));
 
 
     }
