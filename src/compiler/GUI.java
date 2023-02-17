@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 //import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -30,51 +32,75 @@ public class GUI extends JFrame {
 
     public GUI() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/code.png")));
+//setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/code.png")));
         setTitle("Simple Compiler Project");
         setBounds(100, 50, 1000, 600);
         contentPane = new JPanel(new GridLayout(1, 2));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
 
-        // Create the input area and its line number area
+// Create the input area and its line number area
         javaInput = new JTextArea();
-        javaInput.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+        javaInput.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
+        javaInput.setBackground(new Color(40, 40, 40));
+        javaInput.setForeground(Color.WHITE);
+        javaInput.setCaretColor(Color.WHITE);
         JScrollPane inputScrollPane = new JScrollPane(javaInput);
         inputLineNumberArea = new LineNumberTextArea(javaInput);
         JScrollPane inputLineNumberScrollPane = new JScrollPane(inputLineNumberArea);
         inputScrollPane.setRowHeaderView(inputLineNumberScrollPane);
 
-        // Add a titled border to the input area
+// Add a titled border to the input area
         JPanel javaInputPanel = new JPanel(new BorderLayout());
-        javaInputPanel.setBorder(BorderFactory.createTitledBorder("Java Code"));
+        javaInputPanel.setBackground(new Color(40, 40, 40));
+        javaInputPanel.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(new Color(200, 200, 200), 2),
+                "Java Code",
+                TitledBorder.CENTER,
+                TitledBorder.TOP,
+                new Font(Font.SANS_SERIF, Font.BOLD, 16),
+                Color.WHITE
+        ));
         javaInputPanel.add(inputScrollPane, BorderLayout.CENTER);
 
-        // Add the input button to the top right of the input area
+// Add the input button to the top right of the input area
         JButton compileButton = new JButton("Compile");
-        compileButton.setBackground(Color.green);
-        compileButton.setForeground(Color.white);
-        
+        compileButton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
+        compileButton.setBackground(new Color(50, 150, 255));
+        compileButton.setForeground(Color.WHITE);
+        compileButton.setFocusPainted(false);
+        compileButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         JPanel compileButtonPanel = new JPanel(new BorderLayout());
         compileButtonPanel.add(compileButton, BorderLayout.EAST);
-        compileButtonPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
         javaInputPanel.add(compileButtonPanel, BorderLayout.NORTH);
-        compileButton.setFocusPainted(false);
 
         contentPane.add(javaInputPanel);
 
-        // Create the result area and its line number area
+// Create the result area and its line number area
         mipsOutput = new JTextArea();
-        mipsOutput.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+        mipsOutput.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
+        mipsOutput.setBackground(new Color(40, 40, 40));
+        mipsOutput.setForeground(Color.WHITE);
+        mipsOutput.setCaretColor(Color.WHITE);
         JScrollPane resultScrollPane = new JScrollPane(mipsOutput);
         resultLineNumberArea = new LineNumberTextArea(mipsOutput);
         JScrollPane resultLineNumberScrollPane = new JScrollPane(resultLineNumberArea);
         resultScrollPane.setRowHeaderView(resultLineNumberScrollPane);
 
-        // Add a titled border to the result area
+// Add a titled border to the result area
         JPanel mipsOutputPanel = new JPanel(new BorderLayout());
-        mipsOutputPanel.setBorder(BorderFactory.createTitledBorder("Assembly Code"));
+        mipsOutputPanel.setBackground(new Color(40, 40, 40));
+        mipsOutputPanel.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(new Color(200, 200, 200), 2),
+                "Assembly Code",
+                TitledBorder.CENTER,
+                TitledBorder.TOP,
+                new Font(Font.SANS_SERIF, Font.BOLD, 16),
+                Color.WHITE
+        ));
         mipsOutputPanel.add(resultScrollPane, BorderLayout.CENTER);
+                            mipsOutput.setEditable(false);
+
 
         // Add the result button to the top right of the result area
         final JButton runButton = new JButton("Run");
@@ -104,7 +130,7 @@ public class GUI extends JFrame {
                     isValid = false;
                 } else {
                     mipsOutput.setText(assembledCode);
-                    mipsOutput.setForeground(Color.black);
+                    mipsOutput.setForeground(Color.WHITE);
                     runButton.setBackground(Color.GREEN);
                     isValid = true;
                 }
@@ -138,7 +164,6 @@ public class GUI extends JFrame {
 
         @Override
         public void changedUpdate(DocumentEvent e) {
-            // not used for plain text components
             inputLineNumberArea.updateLineNumberArea();
             resultLineNumberArea.updateLineNumberArea();
 
