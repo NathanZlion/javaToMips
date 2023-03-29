@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/Hp/Desktop/javaToMips/src/compiler/executer.java</file>
+            <file>file:/C:/Users/Hp/Desktop/javaToMips/src/compiler/Variable.java</file>
+            <file>file:/C:/Users/Hp/Desktop/javaToMips/src/compiler/Loops.java</file>
+            <file>file:/C:/Users/Hp/Desktop/javaToMips/src/compiler/unwrap.java</file>
+            <file>file:/C:/Users/Hp/Desktop/javaToMips/src/compiler/PrintAndSimpleExpressions.java</file>
+            <file>file:/C:/Users/Hp/Desktop/javaToMips/src/compiler/Assembler.java</file>
+            <file>file:/C:/Users/Hp/Desktop/javaToMips/src/compiler/Conditionals.java</file>
+            <file>file:/C:/Users/Hp/Desktop/javaToMips/src/compiler/Operator.java</file>
+            <file>file:/C:/Users/Hp/Desktop/javaToMips/src/compiler/Register.java</file>
+            <file>file:/C:/Users/Hp/Desktop/javaToMips/src/compiler/Main.java</file>
+            <file>file:/C:/Users/Hp/Desktop/javaToMips/src/compiler/GUI.java</file>
+            <file>file:/C:/Users/Hp/Desktop/javaToMips/src/compiler/Expression.java</file>
+        </group>
+    </open-files>
+</project-private>
