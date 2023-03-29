@@ -7,8 +7,7 @@ area on the right.
 
 - Then click <code>run</code> to run the assembly code in the MARS simulator alse incorporated inside this source code as a library.
 
-<img width="890" alt="image" src="https://user-images.githubusercontent.com/109980176/228555449-5150e1fa-3b1d-4a6f-9062-5f6325fc5851.png">
-
+<img width="886" alt="image" src="https://user-images.githubusercontent.com/109980176/228556728-97eddb3a-0ba5-4d64-8684-81983dc78612.png">
 ## Sample Output
 <img width="591" alt="image" src="https://user-images.githubusercontent.com/109980176/228556130-55427e94-c595-49ea-946f-fb5188f6c4dd.png">
 
