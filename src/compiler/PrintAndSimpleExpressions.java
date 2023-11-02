@@ -6,14 +6,12 @@ import java.util.Objects;
 
 public class PrintAndSimpleExpressions {
     public static String translateSimplePrint(String code, ArrayList<String> keywordsList) {
-        // ArrayList<Variable> variables = new ArrayList<Variable>();
+
         Variable var = new Variable();
         if (code.charAt(code.length() - 1) != ';') {
             return "Syntax Error. Make sure your code ends with a semi-colon\n";
         }
 
-        // String hello="hello";
-        // System.out.println(hello);
         String dataVarName = "";
         // count how many times print is called per line and
         // if it is more than one return syntax error if it is only one, count it
@@ -26,20 +24,17 @@ public class PrintAndSimpleExpressions {
                 }
                 if (Assembler.countHelper(line, keywordsList.get(0)) == 0) {
                     if (!line.contains("==") && Assembler.countHelper(line, "=") == 1) {
-                        // System.out.println(line);
-                        String type, name, value;
 
+                        String type, name, value;
                         String[] separate = line.split("=");
-                        // System.out.println(Arrays.toString(separate));
                         String[] words = separate[0].split(" ");
-                        // System.out.println(Arrays.toString(words));
+
                         type = words[0].trim();
                         name = words[1].trim();
                         value = separate[1].trim();
 
-                        // System.out.println(value);
                         Variable var1 = new Variable(type, name, value);
-                        // System.out.println(var1.isValid());
+
                         if (var1.isValid()) {
                             var = var1;
                             Assembler.variableStore.add(var1);
@@ -64,17 +59,15 @@ public class PrintAndSimpleExpressions {
                     if (start != -1 && end != -1 && start < end) {
                         String varName = line.substring(start + 1, end);
                         String textVarName = varName.trim();
-                        // System.out.println(textVarName);
+
                         if (!dataVarName.equals("") && !textVarName.equals(dataVarName)) {
                             return "Error. Variable mismatch detected";
                         }
-                        // System.out.println(varName);
+
                         Variable var0 = Assembler.findVariable(varName);
-                        //
 
                         if (var0 != null && var0.isValid()) {
                             var = var0;
-                            // System.out.println(var.name+", "+var.type+", "+var.value);
                         }
 
                         else if (varName.length() != 0) {
@@ -88,16 +81,14 @@ public class PrintAndSimpleExpressions {
                                 if (!varStr.isValid()) {
                                     return "Error. Variable not defined correctly";
                                 }
-                                // System.out.println(varStr.value);
-                                // System.out.println(varStr.isValid());
+
                                 Assembler.variableStore.add(varStr);
-                                // System.out.println(variableStore.get(0).name);
                                 var = varStr;
-                                // System.out.println(var.name);
+
                             } else {
                                 try {
                                     int temp = Integer.parseInt(varName);
-                                    // System.out.println(temp);
+
                                     Variable varInt = new Variable("int", "var" + Assembler.variablenames.size(), varName);
 
                                     if (varInt.isValid()) {
@@ -123,11 +114,8 @@ public class PrintAndSimpleExpressions {
 
             }
         }
-        // if(lines.length==1){
-        //
-        // }
+
         String data = "", text = "";
-        // System.out.println(var.name);
         try {
 
             data = ".data\n\t" +
@@ -158,7 +146,6 @@ public class PrintAndSimpleExpressions {
         }
 
         int operatorIndex = code.indexOf(operator);
-        // System.out.println(operatorIndex);
         String var1 = code.substring(0, operatorIndex).trim();
         String var2 = code.substring(operatorIndex + 1, code.length() - 1).trim();
 
@@ -171,8 +158,6 @@ public class PrintAndSimpleExpressions {
 
         if (varOne.isValid() && varTwo.isValid()) {
             Operator oprtr = Operator.arithOpMap.get(operator);
-            // System.out.println(oprtr.operation);
-
             String data = ".data\n\t" +
                     varOne.name + ": " +
                     varOne.mipsType + " " + varOne.value + "\n\t" +
@@ -212,30 +197,19 @@ public class PrintAndSimpleExpressions {
             line = line.trim();
             if (!line.contains("==") && Assembler.countHelper(line, "=") == 1) {
 
-                // System.out.println(Assembler.countHelper(line, "="));
-                // System.out.println(line.contains("=="));
                 String type, name, value;
-
                 String[] separate = line.split("=");
-                // System.out.println(Arrays.toString(separate));
                 String[] words = separate[0].split(" ");
-                // System.out.println(Arrays.toString(words));
+
                 type = words[0].trim();
-                // System.out.println(type);
                 name = words[1].trim();
-                // System.out.println(name);
                 value = separate[1].trim();
-                // System.out.println(value);
-                // System.out.println(type+ name+ value);
-                // System.out.println(value);
                 Variable var1 = new Variable(type, name, value);
-                // System.out.println(var1.type+" "+ var1.name+" "+var1.value);
-                // System.out.println(var1.isValid());
                 boolean bool = var1.isValid();
+
                 if (bool) {
                     var = var1;
                     Assembler.variableStore.add(var1);
-                    // dataVarName = var.name;
                     Assembler.variablenames.add(var.name);
                     data = data + " " +
                             var.name + ": " +
@@ -249,8 +223,6 @@ public class PrintAndSimpleExpressions {
                 return "Syntax Error. More than one equal sign";
             }
         }
-
         return data;
     }
-
 }
