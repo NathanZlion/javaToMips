@@ -16,7 +16,6 @@ public class Conditionals {
         if (indexOfIf > 0){
             String declarations = code.substring(0, indexOfIf).trim();
             String dataLine = PrintAndSimpleExpressions.declarations(declarations);
-//            System.out.println(dataLine);
             if (dataLine.contains(".data")){
                 data += dataLine.substring(6);
             }else{
@@ -35,19 +34,14 @@ public class Conditionals {
         String mipsCondition = translateBooleanExpression(condition);
         int labelStart = mipsCondition.indexOf("label:");
         text+=mipsCondition.substring(0, labelStart);
-//        System.out.println(text);
-//        int elseStart = code.indexOf("else");
-//        System.out.println(elseStart);
         String[] codeBlocks = conditional.split("else");
         String ifStatements = codeBlocks[0].substring(statementStart+1).trim();
         String elseStatements="";
         if (codeBlocks.length>1){
             elseStatements = codeBlocks[1].trim();
             elseStatements=elseStatements.substring(1);
-//            System.out.println(elseStatements.charAt(elseStatements.length()-1));
-
         }
-//        System.out.println(ifStatements);
+
         if(ifStatements.trim().charAt(ifStatements.length()-1)!='}'){
             return "Syntax Error. curved bracket not closed properly";
         }
@@ -59,25 +53,22 @@ public class Conditionals {
 
         ifStatements=ifStatements.substring(0,ifStatements.length()-1);
 
-//        System.out.println(statement);
         String[] ifLines = ifStatements.split(";");
         for(String line: ifLines){
-//            System.out.println(line+"\n");
+
             line = line.trim() +';';
             if (!line.contains("==") && Assembler.countHelper(line, "=")==1){
                 //System.out.println(line);
                 String type, name, value;
 
                 String[] separate = line.split("=");
-                //System.out.println(Arrays.toString(separate));
                 String[] words = separate[0].split(" ");
-                //System.out.println(Arrays.toString(words));
                 type=words[0];
                 name=words[1];
                 value=separate[1];
-                //System.out.println(value);
+
                 Variable var1 = new Variable(type,name, value);
-                //System.out.println(var1.isValid());
+
                 if (var1.isValid()){
 
                     Assembler.variableStore.add(var1);
@@ -106,48 +97,37 @@ public class Conditionals {
             }
         }
 
-
-
-
-//        return translateBooleanExpression(condition);
         if (elseStatements.length()==0){
             text = text.replace("j end", "");
-        }else{
+        } else {
             String[] elseLines = elseStatements.split(";");
             for (String line: elseLines){
                 line = line.trim() +';';
                 if (!line.contains("==") && Assembler.countHelper(line, "=")==1){
-                    //System.out.println(line);
+                    
                     String type, name, value;
 
                     String[] separate = line.split("=");
-                    //System.out.println(Arrays.toString(separate));
                     String[] words = separate[0].split(" ");
-                    //System.out.println(Arrays.toString(words));
+
                     type=words[0];
                     name=words[1];
                     value=separate[1];
-                    //System.out.println(value);
-                    Variable var1 = new Variable(type,name, value);
-                    //System.out.println(var1.isValid());
-                    if (var1.isValid()){
 
+                    Variable var1 = new Variable(type,name, value);
+
+                    if (var1.isValid()){
                         Assembler.variableStore.add(var1);
-                    }
-                    else{
+                    } else {
                         return "Error. Invalid variable declaration detected.";
                     }
 
                 }
                 if (line.contains("System.out.println")){
                     String printLine = PrintAndSimpleExpressions.translateSimplePrint(line, Assembler.findKeywords(line));
-//                System.out.println(printLine);
                     String[] blocks = printLine.split(".text");
-//                blocks[1].replace("syscall", "j exit");
                     text+="end:\n\t"+ blocks[1].trim() + "\n li $v0, 10\n syscall\n";
-//                System.out.println(text);
                     data+=blocks[0].substring(6).trim()+'\n';
-//                System.out.println(data);
 
                 }
             }
@@ -191,10 +171,8 @@ public class Conditionals {
 
         mipsCode += "j end\n"; // Jump to the end of the code
         mipsCode += "label:\n"; // Define the label for the conditional jump
-//        mipsCode += "li $v0, 1\n"; // Load 1 into $v0 to indicate true
         mipsCode += "j exit\n"; // Jump to the exit of the code
         mipsCode += "end:\n"; // Define the end label
-//        mipsCode += "li $v0, 0\n"; // Load 0 into $v0 to indicate false
         mipsCode += "exit:\n"; // Define the exit label
         mipsCode += "li $v0, 10\n syscall\n";
         return mipsCode;
