@@ -14,9 +14,9 @@ public class Loops {
         String data = ".data\n", text = "";
         int whileIndex = code.trim().indexOf("while");
         String codeBeforeWhile = code.trim().substring(0, whileIndex);
-        // System.out.println(codeBeforeWhile);
         String mipsForCodeBeforeWhile = Assembler.translate(codeBeforeWhile.trim());
         assert mipsForCodeBeforeWhile != null;
+
         if (!mipsForCodeBeforeWhile.contains("error") && mipsForCodeBeforeWhile.length() > 0) {
             if (!mipsForCodeBeforeWhile.contains(".text")) {
                 data += mipsForCodeBeforeWhile.substring(6);
@@ -28,6 +28,7 @@ public class Loops {
             }
 
         }
+
         code = code.trim().substring(whileIndex).trim();
         String condition = code.substring(code.indexOf('(') + 1, code.indexOf(')')).trim();
         String[] conditionParts = condition.split(" ");
@@ -37,11 +38,10 @@ public class Loops {
         String var1 = conditionParts[0].trim();
         String operator = conditionParts[1].trim();
         String var2 = conditionParts[2].trim();
-        // System.out.println(var1 + ", " + var2);
-        // System.out.println(var2);
 
         Variable variable1 = Assembler.findVariable(var1);
         Variable variable2 = Assembler.findVariable(var2);
+
         if (variable1 == null) {
             try {
                 int num = Integer.parseInt(var1);
@@ -56,7 +56,6 @@ public class Loops {
                 }
 
             } catch (Exception e) {
-                // System.out.println(e);
                 return "Error. unsupported type in loop";
             }
         }
@@ -117,8 +116,6 @@ public class Loops {
             line = line.trim() + ";";
 
             HashMap<String, String> map = new HashMap<>();
-            // map.put("++", "addi");
-            // map.put("--", "subi");
             map.put("+=", "addi");
             map.put("-=", "subi");
             boolean flag = !line.contains(var1) && !line.contains(var2);
@@ -127,11 +124,10 @@ public class Loops {
                 String printVal = line.substring(16);
                 if (!printVal.contains(var1) && !printVal.contains(var2)) {
                     String temp = PrintAndSimpleExpressions.translateSimplePrint(line, Assembler.findKeywords(line));
-                    // System.out.println(temp);
-                    // System.out.println("333");
-                    if (temp.contains("Error")) {
+
+                    if (temp.contains("Error"))
                         return temp;
-                    }
+                    
                     int indexOfText = temp.indexOf(".text");
                     mipsBodyData += temp.substring(5, indexOfText) + "\n";
                     mipsBodyText += temp.substring(indexOfText + 5) + "\n";
@@ -162,14 +158,13 @@ public class Loops {
 
             } else if (line.contains("+=") && !(line.contains("-="))) {
                 line = line.replace(";", "");
-                // System.out.println(line);
+
                 String[] temp = line.split("\\+=");
-                // System.out.println(Arrays.toString(temp));
                 try {
                     if (temp.length != 2)
                         throw new Exception();
+
                     int b = Integer.parseInt(temp[1]);
-                    // System.out.println(b);
 
                 } catch (Exception e) {
                     return "Error. unsupported incrementation";
@@ -200,13 +195,13 @@ public class Loops {
                     mipsBodyText += "\n" +
                             map.get("-=") + " " + var1Register
                             + ", " + var1Register + ", " + temp[1] + "\n";
-                    // System.out.println(temp[1]);
+
                 } else if (temp[0].equals(var2)) {
                     mipsBodyText += "\n" +
                             map.get("-=") + " " + var2Register
                             + ", " + var2Register + ", " + temp[1] + "\n";
-                    // System.out.println(temp[1]);
                 }
+
             } else {
                 System.out.println(line);
                 return "Error. unsupported statement";
@@ -230,12 +225,8 @@ public class Loops {
             text += whileMips;
         }
         text += "exit:\n" + "li $v0, 10\n syscall\n";
-        // System.out.println(data);
         data = ".data\n" + removeDuplicateLines(data.substring(5));
-        // System.out.println(data);
         return data + text;
-        // return mipsCode;
-        // return "";
     }
 
     public static String removeDuplicateLines(String inputString) {
