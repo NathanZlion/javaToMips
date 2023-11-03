@@ -76,7 +76,7 @@ public class PrintAndSimpleExpressions {
                                 Variable varStr = new Variable("String",
                                         "var" + Assembler.variablenames.size(),
                                         varName);
-                                // System.out.println("var"+variablenames.size());
+
                                 Assembler.variablenames.add("var" + Assembler.variablenames.size());
                                 if (!varStr.isValid()) {
                                     return "Error. Variable not defined correctly";
@@ -137,7 +137,6 @@ public class PrintAndSimpleExpressions {
         }
 
         return data + text;
-        // return var.mipsType +" "+var.liValue;
     }
 
     public static String simpleExpression(String code, String operator) {
@@ -165,7 +164,6 @@ public class PrintAndSimpleExpressions {
                     varTwo.mipsType + " " + varTwo.value + "\n";
 
             String text = ".text\n\t" +
-            // ".main:\n\t"+
                     varOne.loadR + " " + Objects.requireNonNull(Assembler.getFirstEmptyRegister(Assembler.tempRegisters)).name +
                     ", " + varOne.name + "($0)" + "\n\t" +
                     varTwo.loadR + " " + Objects.requireNonNull(Assembler.getFirstEmptyRegister(Assembler.tempRegisters)).name +
@@ -174,7 +172,7 @@ public class PrintAndSimpleExpressions {
                     + ", " +
                     Assembler.usedRegisters.get(Assembler.usedRegisters.size() - 3).name + ", " +
                     Assembler.usedRegisters.get(Assembler.usedRegisters.size() - 2).name +
-                    "\n\t";// +"syscall";
+                    "\n\t";
 
             return data + text;
 
